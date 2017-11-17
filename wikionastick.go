@@ -82,7 +82,7 @@ func loadPage(fname string) (*Page, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Filename: fname, Title: "CHANGEME", Body: body}, nil
+	return &Page{Filename: fname, Title: "WikiOnAStick", Body: body}, nil
 }
 
 func (p *Page) save() error {
@@ -135,7 +135,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 			if strings.Contains(err.Error(), "no such file") {
 
-				fmt.Fprint(w, "<h1>404</h1><div>File Not Found</div>")
+				http.Error(w, "File not found", 404)
 				
 				log.WithFields(log.Fields{
 					"path": fullPath,
@@ -143,7 +143,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 			} else {
 
-				fmt.Fprintf(w, "<h1>404</h1><div>File Not Found: %s</div>", err)
+				http.Error(w, "File not found", 404)
 				
 				log.WithFields(log.Fields{
 					"path": fullPath,
@@ -179,7 +179,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 
-			fmt.Fprint(w, "<h1>404</h1><div>File Not Found</div>")
+			http.Error(w, "File not found", 404)
 			
 			log.WithFields(log.Fields{
 				"path": fullPath,
