@@ -28,7 +28,6 @@ func HasExtension(fname string, ext string) bool {
 		return false
 	} else {
 		if fname[len(fname)-ext_length:] != ext {
-			log.Debug("Filename does not have this extension")
 			return false
 		}
 	}
