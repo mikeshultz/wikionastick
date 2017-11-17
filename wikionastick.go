@@ -161,12 +161,12 @@ func init() {
 
 	// Get pwd
 	ex, err := os.Executable()
-    if err != nil {
-        panic(err)
-    }
-    PWD = filepath.Dir(ex)
+	if err != nil {
+		panic(err)
+	}
+	PWD = filepath.Dir(ex)
 
-    TEAMPLATE_DIR = "/templates/default/"
+	TEAMPLATE_DIR = "/templates/default/"
 
 	// Setup logging
 	log.SetOutput(os.Stdout)
