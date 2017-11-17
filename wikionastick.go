@@ -1,4 +1,6 @@
 /*
+wikionastick
+
 Markdown documentation Web server to serve documentation from a thumbdrive.
 */
 package main
@@ -90,6 +92,7 @@ func (p *Page) save() error {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(string(r.URL.Path))
+	var isMarkdown bool
 	var path string
 	path = r.URL.Path
 
@@ -100,10 +103,22 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 	// if markdown file in not in URL, add it
 	if len(r.URL.Path) > 3 && r.URL.Path[len(r.URL.Path)-3:] != ".md" {
-		var pathBuffer bytes.Buffer
-		pathBuffer.Write([]byte(r.URL.Path))
-		pathBuffer.Write([]byte(".md"))
-		path = pathBuffer.String()
+		
+		// Don't mess with CSS or JS files
+		if !hasExtension(r.URL.Path, ".js") && 
+			!hasExtension(r.URL.Path, ".css") {
+		
+			var pathBuffer bytes.Buffer
+			pathBuffer.Write([]byte(r.URL.Path))
+			pathBuffer.Write([]byte(".md"))
+			path = pathBuffer.String()
+
+		}
+
+	}
+
+	if hasExtension(path, ".md"){
+		isMarkdown = true
 	}
 	
 	fullPath := PWD + path
@@ -112,11 +127,57 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		"path": fullPath,
 	}).Debug("Loading file")
 
-	pageOut, err := loadPage(fullPath)
+	if isMarkdown {
 
-	if err != nil {
+		pageOut, err := loadPage(fullPath)
 
-		if strings.Contains(err.Error(), "no such file") {
+		if err != nil {
+
+			if strings.Contains(err.Error(), "no such file") {
+
+				fmt.Fprint(w, "<h1>404</h1><div>File Not Found</div>")
+				
+				log.WithFields(log.Fields{
+					"path": fullPath,
+				}).Info("File not found")
+
+			} else {
+
+				fmt.Fprintf(w, "<h1>404</h1><div>File Not Found: %s</div>", err)
+				
+				log.WithFields(log.Fields{
+					"path": fullPath,
+				}).Warn("Error finding path")
+
+			}
+
+		} else {
+
+			// Render markdown to html
+			err = renderDefaultTemplate(w, pageOut)
+
+			if err != nil {
+			
+				log.WithFields(log.Fields{
+					"path": fullPath,
+					"error": err,
+				}).Error("Request failed")
+
+			} else {
+			
+				log.WithFields(log.Fields{
+					"path": fullPath,
+				}).Info("Request")
+
+			}
+
+		}
+	} else {
+
+		// Load the file
+		stringOut, err := loadFileToString(fullPath)
+
+		if err != nil {
 
 			fmt.Fprint(w, "<h1>404</h1><div>File Not Found</div>")
 			
@@ -124,35 +185,11 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				"path": fullPath,
 			}).Info("File not found")
 
-		} else {
-
-			fmt.Fprintf(w, "<h1>404</h1><div>File Not Found: %s</div>", err)
-			
-			log.WithFields(log.Fields{
-				"path": fullPath,
-			}).Warn("Error finding path")
+			return
 
 		}
 
-	} else {
-
-		// Render markdown to html
-		err = renderDefaultTemplate(w, pageOut)
-
-		if err != nil {
-		
-			log.WithFields(log.Fields{
-				"path": fullPath,
-				"error": err,
-			}).Error("Request failed")
-
-		} else {
-		
-			log.WithFields(log.Fields{
-				"path": fullPath,
-			}).Info("Request")
-
-		}
+		fmt.Fprint(w, stringOut)
 
 	}
 }
@@ -164,9 +201,8 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	PWD = filepath.Dir(ex)
-
-	TEAMPLATE_DIR = "/templates/default/"
+	PWD = filepath.Dir(ex)					// Current working directory
+	TEAMPLATE_DIR = "/templates/default/"	// Default template directory
 
 	// Setup logging
 	log.SetOutput(os.Stdout)
