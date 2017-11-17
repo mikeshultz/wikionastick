@@ -105,7 +105,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		pathBuffer.Write([]byte(".md"))
 		path = pathBuffer.String()
 	}
-	//pathChunks := Split(r.URL.Path)
+	
 	fullPath := PWD + path
 		
 	log.WithFields(log.Fields{
@@ -137,11 +137,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		// Render markdown to html
-		//page_html := mark.Render(pageOut.Body)
-
-		//fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", pageOut.Filename, html)
-
-		// Render it
 		err = renderDefaultTemplate(w, pageOut)
 
 		if err != nil {
