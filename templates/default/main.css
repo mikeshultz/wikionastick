@@ -1,0 +1,8 @@
+body {
+	font-family: sans-serif;
+}
+
+#main-container {
+	max-width: 760px;
+	margin: 3rem auto;
+}
