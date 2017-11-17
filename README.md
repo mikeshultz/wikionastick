@@ -38,14 +38,14 @@ You will have to invoke `wikionastick` with the new template path:
 Thumbdrive layout:
 
     /mnt/thumbdrive
-     - wikionastick
-     - templates/
-       - default/
-         - base_template.html
-         - main.css
-     - README.md
-     - docs/
-       - example.md
+        wikionastick
+        templates/
+            default/
+                base_template.html
+                main.css
+        README.md
+        docs/
+            example.md
 
 README.md:
 
