@@ -90,13 +90,8 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	var filePath string
 	filePath = r.URL.Path
 
-	if filePath == "/" {
-		// TODO: Add checks for others, like README
-		filePath = "/index.md"
-	}
-
 	// if markdown file in not in URL, add it
-	if len(r.URL.Path) > 3 && r.URL.Path[len(r.URL.Path)-3:] != ".md" {
+	if len(filePath) > 3 && filePath[len(filePath)-3:] != ".md" {
 		
 		// Don't mess with CSS or JS files
 		if !HasExtension(r.URL.Path, ".js") && 
@@ -107,12 +102,39 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+	
+	var fullPath string
+	
+	// Handle default page
+	if filePath == "/" {
+
+		// First try is index.md
+		filePath = "/index.md"
+
+		// Check if index.md is a file
+		if _, err := os.Stat(PWD + filePath); !os.IsNotExist(err) {
+			fullPath = PWD + filePath
+		} else {
+			
+			// Let's fallback to README.md
+			filePath = "/README.md"
+
+			// Check if README.md exists
+			if _, err := os.Stat(PWD + filePath); !os.IsNotExist(err) {
+				fullPath = PWD + filePath
+			} else {
+				// All Else Failed is an awesome band
+				http.Error(w, "File not found", 404)
+			}
+
+		}
+	} else {
+		fullPath = PWD + filePath
+	}
 
 	if HasExtension(filePath, ".md"){
 		isMarkdown = true
 	}
-	
-	fullPath := PWD + filePath
 		
 	log.WithFields(log.Fields{
 		"filePath": fullPath,
