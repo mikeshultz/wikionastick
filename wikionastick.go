@@ -21,6 +21,7 @@ var TEAMPLATE_DIR string
 
 type Page struct {
 	Filename string
+	Title string
 	Body  []byte
 	HTML string
 }
@@ -79,7 +80,7 @@ func loadPage(fname string) (*Page, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Filename: fname, Body: body}, nil
+	return &Page{Filename: fname, Title: "CHANGEME", Body: body}, nil
 }
 
 func (p *Page) save() error {
