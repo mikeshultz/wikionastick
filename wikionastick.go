@@ -7,19 +7,20 @@ package main
 
 import (
 	"os"
+	"path"
 	"fmt"
-	"bytes"
 	"strings"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
+	"github.com/jessevdk/go-flags"
 	log "github.com/sirupsen/logrus"
 	"text/template"
 	"github.com/a8m/mark"
 )
 
 var PWD string
-var TEAMPLATE_DIR string
+var TEMPLATE_DIR string
 
 type Page struct {
 	Filename string
@@ -28,9 +29,9 @@ type Page struct {
 	HTML string
 }
 
-func loadFileToString(fname string) (string, error) {
+func loadFileToString(fullPath string) (string, error) {
 	var bodyString string
-	body, err := ioutil.ReadFile(fname)
+	body, err := ioutil.ReadFile(fullPath)
 	if err != nil {
 		return "", err
 	}
@@ -44,14 +45,7 @@ func renderTemplate(w http.ResponseWriter, page *Page, templateName string) erro
 	page.HTML = mark.Render(string(page.Body))
 
 	// Get full path for base template
-	var templatePathBuffer bytes.Buffer
-
-	templatePathBuffer.WriteString(PWD)
-	templatePathBuffer.WriteString(TEAMPLATE_DIR)
-	templatePathBuffer.WriteString("/")
-	templatePathBuffer.WriteString(templateName)
-
-	templatePath := templatePathBuffer.String()
+	templatePath := path.Join(PWD, TEMPLATE_DIR, templateName)
 
 	// Load the main template
 	template_text, err := loadFileToString(templatePath)
@@ -93,38 +87,35 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(string(r.URL.Path))
 	var isMarkdown bool
-	var path string
-	path = r.URL.Path
+	var filePath string
+	filePath = r.URL.Path
 
-	if path == "/" {
+	if filePath == "/" {
 		// TODO: Add checks for others, like README
-		path = "/index.md"
+		filePath = "/index.md"
 	}
 
 	// if markdown file in not in URL, add it
 	if len(r.URL.Path) > 3 && r.URL.Path[len(r.URL.Path)-3:] != ".md" {
 		
 		// Don't mess with CSS or JS files
-		if !hasExtension(r.URL.Path, ".js") && 
-			!hasExtension(r.URL.Path, ".css") {
-		
-			var pathBuffer bytes.Buffer
-			pathBuffer.Write([]byte(r.URL.Path))
-			pathBuffer.Write([]byte(".md"))
-			path = pathBuffer.String()
+		if !HasExtension(r.URL.Path, ".js") && 
+			!HasExtension(r.URL.Path, ".css") {
+
+			filePath = path.Join(r.URL.Path, ".md")
 
 		}
 
 	}
 
-	if hasExtension(path, ".md"){
+	if HasExtension(filePath, ".md"){
 		isMarkdown = true
 	}
 	
-	fullPath := PWD + path
+	fullPath := PWD + filePath
 		
 	log.WithFields(log.Fields{
-		"path": fullPath,
+		"filePath": fullPath,
 	}).Debug("Loading file")
 
 	if isMarkdown {
@@ -138,7 +129,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "File not found", 404)
 				
 				log.WithFields(log.Fields{
-					"path": fullPath,
+					"fullPath": fullPath,
 				}).Info("File not found")
 
 			} else {
@@ -146,7 +137,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "File not found", 404)
 				
 				log.WithFields(log.Fields{
-					"path": fullPath,
+					"fullPath": fullPath,
 				}).Warn("Error finding path")
 
 			}
@@ -159,14 +150,14 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 			
 				log.WithFields(log.Fields{
-					"path": fullPath,
+					"fullPath": fullPath,
 					"error": err,
 				}).Error("Request failed")
 
 			} else {
 			
 				log.WithFields(log.Fields{
-					"path": fullPath,
+					"fullPath": fullPath,
 				}).Info("Request")
 
 			}
@@ -182,7 +173,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "File not found", 404)
 			
 			log.WithFields(log.Fields{
-				"path": fullPath,
+				"fullPath": fullPath,
 			}).Info("File not found")
 
 			return
@@ -196,17 +187,41 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 func init() {
 
+	var opts struct {
+		TemplateDir string `short:"t" long:"template" description:"Path to a template directory"`
+		LogLevel string `short:"l" long:"loglevel" description:"Log level. ['debug', 'info', 'warning', 'error']"`
+	}
+
 	// Get pwd
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
 	}
 	PWD = filepath.Dir(ex)					// Current working directory
-	TEAMPLATE_DIR = "/templates/default/"	// Default template directory
+
+	args, err := flags.Parse(&opts)
+
+	if err != nil {
+
+		log.WithFields(log.Fields{
+			"args": args,
+			"sysargs": os.Args[1:],
+		}).Error("Error parsing args")
+
+		os.Exit(1)
+	}
+
+	TEMPLATE_DIR = opts.TemplateDir
+	logLevel := opts.LogLevel
 
 	// Setup logging
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(LogLevelTranslate(logLevel))
+
+	log.WithFields(log.Fields{
+		"args": args,
+		"sysargs": os.Args[1:],
+	}).Debug("Args")
 
 }
 

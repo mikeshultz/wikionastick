@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func hasExtension(fname string, ext string) bool {
+func HasExtension(fname string, ext string) bool {
 
 	// If period is not included, add it
 	if ext[0:1] != "." {
@@ -33,4 +33,17 @@ func hasExtension(fname string, ext string) bool {
 		}
 	}
 	return true
+}
+
+func LogLevelTranslate(level string) log.Level {
+	switch level {
+	case "debug":
+		return log.DebugLevel
+	case "info":
+		return log.InfoLevel
+	case "error":
+		return log.ErrorLevel
+	default: 
+		return log.WarnLevel
+	}
 }
