@@ -7,7 +7,7 @@ go:
 #go_import_path: "github.com/mikeshultz/wikionastick"
 #before_install:
 #  - mkdir -p $WOS_BUILD_DIR
-install:
+before_install:
   - git clone https://github.com/mikeshultz/wikionastick.git $WOS_SRC_DIR
 script: cd $WOS_SRC_DIR && ./make.sh
 deploy:
