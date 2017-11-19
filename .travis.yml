@@ -2,10 +2,12 @@ dist: trusty
 language:
   go:
   - 1.8
-go_import_path: "/tmp/wikionastick"
+go_import_path: "/tmp/"
+before_install:
+  - mkdir -p /tmp/github.com/mikeshultz/wikionastick
 install:
-- git clone https://github.com/mikeshultz/wikionastick.git /tmp/github.com/mikeshultz/wikionastick
-script: mkdir -p /tmp/wikionastick && cd /tmp/wikionastick && ./make.sh
+  - git clone https://github.com/mikeshultz/wikionastick.git /tmp/github.com/mikeshultz/wikionastick
+script: cd /tmp/github.com/mikeshultz/wikionastick && ./make.sh
 deploy:
   provider: releases
   api_key:
