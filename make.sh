@@ -29,7 +29,12 @@ DARWIN="$DARWIN_DIR/wiki.app"
 DARWIN_TARBALL="wikionastick-$VERSION-darwin64.tar.gz"
 
 # Combined
+COMBINED_DIR="$BUILD_DIR/combined"
 COMBINED_TARBALL="wikionastick-$VERSION-all.tar.gz"
+
+echo "go getting the dependencies..."
+
+go get -t github.com/mikeshultz/wikionastick
 
 echo "Creating build environment..."
 
@@ -40,6 +45,7 @@ mkdir -p $LINUX64_DIR/templates
 mkdir -p $WIN64_DIR/templates
 mkdir -p $FBSD64_DIR/templates
 mkdir -p $DARWIN_DIR/templates
+mkdir -p COMBINED_DIR
 
 echo "Building Linux amd64..."
 GOOS=linux GOARCH=amd64 go build -o $LINUX64
@@ -59,6 +65,7 @@ cp -R templates $WIN64_DIR
 cp -R templates $LINUX64_DIR
 cp -R templates $FBSD64_DIR
 cp -R templates $DARWIN_DIR
+cp -R templates $COMBINED_DIR
 
 echo "Generating tarballs..."
 
@@ -66,6 +73,6 @@ cd $WIN64_DIR && tar -czf $BUILD_DIR/$WIN64_TARBALL . && cd $CWD
 cd $LINUX64_DIR && tar -czf $BUILD_DIR/$LINUX64_TARBALL . && cd $CWD
 cd $FBSD64_DIR && tar -czf $BUILD_DIR/$FBSD64_TARBALL . && cd $CWD
 cd $DARWIN_DIR && tar -czf $BUILD_DIR/$DARWIN_TARBALL . && cd $CWD
-cd $BUILD_DIR && find "." -type d -name "*64" | xargs tar -czf $BUILD_DIR/$COMBINED_TARBALL  && cd $CWD
+cd $COMBINED_DIR && cp ../*/wiki.* $COMBINED_DIR/ && tar -czf $BUILD_DIR/$COMBINED_TARBALL . && cd $CWD
 
 echo "Done."
