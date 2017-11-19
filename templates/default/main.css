@@ -1,8 +1,62 @@
 body {
-	font-family: sans-serif;
+    font-family: sans-serif;
+    background: #f8f8f8;
+    font-size: 1rem;
+}
+
+header {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    border: 2px #eee ridge;
+    border-bottom: none;
+    background: #222;
+}
+header h1 {
+    border: none;
+    margin: 0;
+    font-size: 125%;
+}
+header h1 a {
+    text-decoration: none;
+    color: #ddd;
 }
 
 #main-container {
-	max-width: 760px;
-	margin: 3rem auto;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    border: 2px #eee ridge;
+    border-top: none;
+    background: #fff;
+}
+
+h1,h2,h3,h4,h5 {
+}
+h1,h2 {
+    text-transform: capitalize;
+    border-bottom: 1px #999 solid;
+}
+
+ul {
+    padding-left: 2rem;
+    margin: .5rem 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table thead {}
+table thead tr {}
+tbody tr:nth-child(odd) {
+    background: #eee;
+}
+table thead tr th {
+    border-bottom: 1px #222 solid;
+    padding: .5rem;
+}
+table tbody tr td {
+    border: 1px #ddd solid;
+    padding: .5rem;
 }
