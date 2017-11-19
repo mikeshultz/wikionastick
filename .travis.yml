@@ -1,7 +1,6 @@
 dist: trusty
 env:
-  - WOS_SRC_DIR=/tmp/github.com/mikeshultz/wikionastick
-  - WOS_BUILD_DIR="$WOS_DIR/build"
+  - WOS_SRC_DIR=/tmp/github.com/mikeshultz/wikionastick WOS_BUILD_DIR="$WOS_DIR/build"
 language: go
 go:
   - 1.8
