@@ -6,6 +6,7 @@ go:
   - 1.8
 #go_import_path: "github.com/mikeshultz/wikionastick"
 script: cd $WOS_SRC_DIR && ./make.sh
+after_script: ls -lah $WOS_BUILD_DIR
 deploy:
   provider: releases
   api_key:
@@ -13,3 +14,4 @@ deploy:
   file: $WOS_BUILD_DIR/*.tar.gz
   on:
     repo: mikeshultz/wikionastick
+    tags: true
