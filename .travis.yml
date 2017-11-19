@@ -12,6 +12,8 @@ deploy:
   api_key:
     secure: l5Kvr6wj7wVDhqzklWYEy6Lg/el51/VWnazeSJ22umB230DSNlN5rVpkKZq2DXwSSWqWl519ytpafOE8PXYLnU2KbSAe22QNsUdojRif4OrcHXJy8k2vPo577XMyOM/aIbCf/PgK91wYXTPpQa6MArprz1naDGv9qS3JpEdi9zVAoa3QGOx4RcoexTZ/+vdVoOaoehjSDn7tlwf7No7M121Y1TODCc6GGpJTaL5X1K9i7kTYkPHiKZ/55LSm6ZFNAl/zvSGJJPmjRXUovu0dW9tGeYpReW54w1LXAqmmh80tHPilMG0NZneLyg/j+mYXnN86r4ZXJQJqwo/23UcHR0aw4fjnxHVwaNQ8V1mHDrmCOlbjSwNdf2Twk3R05qoL3aFSAtiuzkMkYDoCUdRpOPUR7/WYdOfpXP74iw0+lA9sgyo5nheBZ3G9P1UAPeEuG5b/a5ssgkzE8a9mtvft6WtipO7uRAE/1u2I6Vql92im1b/biR15GKu/eNGHZattSY6brjOvKyCaycfaYA2FC4vS/mPEtgqWxvy/4KjPGJ6y7zk0a2zx9xiYpm4k5ZP8+Pf9doNdugpQJm1pCodYlGWeST+cuu8i+QVAobXwUkZeUw3pwNE0iWm/c4XGEtxuzDlwYrctONaJFqe1Lr6uHaoWUqFcHNf5TuynSnRYERA=
   file: $WOS_BUILD_DIR/*.tar.gz
+  # skip_cleanup set becuase: https://github.com/travis-ci/travis-ci/issues/5646
+  skip_cleanup: true
   on:
     repo: mikeshultz/wikionastick
     tags: true
