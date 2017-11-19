@@ -4,7 +4,7 @@ language:
   - 1.8
 go_import_path: "/tmp/wikionastick"
 install:
-- git clone git@github.com:mikeshultz/wikionastick.git /tmp/github.com/mikeshultz/wikionastick
+- git clone https://github.com/mikeshultz/wikionastick.git /tmp/github.com/mikeshultz/wikionastick
 script: cd /tmp/wikionastick && ./make.sh
 deploy:
   provider: releases
