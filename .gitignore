@@ -3,6 +3,10 @@
 *.dll
 *.so
 *.dylib
+*.freebsd64
+*.linux64
+build/
+release/
 
 # Test binary, build with `go test -c`
 *.test
