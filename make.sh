@@ -66,11 +66,11 @@ GOOS=darwin GOARCH=amd64 go build -o $DARWIN
 
 echo "Copying templates..."
 
-cp -R templates $WIN64_DIR
-cp -R templates $LINUX64_DIR
-cp -R templates $FBSD64_DIR
-cp -R templates $DARWIN_DIR
-cp -R templates $COMBINED_DIR
+cp -R templates $WIN64_DIR/
+cp -R templates $LINUX64_DIR/
+cp -R templates $FBSD64_DIR/
+cp -R templates $DARWIN_DIR/
+cp -R templates $COMBINED_DIR/
 
 echo "Generating tarballs..."
 
