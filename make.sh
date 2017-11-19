@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Version should be changed on each build!
-VERSION="v0.1.1"
+VERSION="0.1.1"
 
 CWD=$(pwd)
 BUILD_DIR="$CWD/build"
@@ -11,25 +11,25 @@ BUILD_DIR="$CWD/build"
 # Windows
 WIN64_DIR="$BUILD_DIR/win64"
 WIN64="$WIN64_DIR/wiki.exe"
-WIN64_TARBALL="wikionastick-windows64.tar.gz"
+WIN64_TARBALL="wikionastick-$VERSION-windows64.tar.gz"
 
 # Linux
 LINUX64_DIR="$BUILD_DIR/linux64"
 LINUX64="$LINUX64_DIR/wiki.linux64"
-LINUX64_TARBALL="wikionastick-linux64.tar.gz"
+LINUX64_TARBALL="wikionastick-$VERSION-linux64.tar.gz"
 
 # FreeBSD
 FBSD64_DIR="$BUILD_DIR/freebsd64"
 FBSD64="$FBSD64_DIR/wiki.freebsd64"
-FBSD64_TARBALL="wikionastick-freebsd64.tar.gz"
+FBSD64_TARBALL="wikionastick-$VERSION-freebsd64.tar.gz"
 
 # Darwin
 DARWIN_DIR="$BUILD_DIR/darwin64"
 DARWIN="$DARWIN_DIR/wiki.app"
-DARWIN_TARBALL="wikionastick-darwin64.tar.gz"
+DARWIN_TARBALL="wikionastick-$VERSION-darwin64.tar.gz"
 
 # Combined
-COMBINED_TARBALL="wikionastick-all.tar.gz"
+COMBINED_TARBALL="wikionastick-$VERSION-all.tar.gz"
 
 echo "Creating build environment..."
 
