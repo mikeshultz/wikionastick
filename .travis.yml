@@ -5,11 +5,6 @@ language: go
 go:
   - 1.8
 #go_import_path: "github.com/mikeshultz/wikionastick"
-#before_install:
-#  - mkdir -p $WOS_BUILD_DIR
-before_install:
-  - ls -lah $WOS_SRC_DIR
-  - git clone https://github.com/mikeshultz/wikionastick.git $WOS_SRC_DIR
 script: cd $WOS_SRC_DIR && ./make.sh
 deploy:
   provider: releases
