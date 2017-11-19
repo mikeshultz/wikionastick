@@ -1,10 +1,10 @@
 dist: trusty
 env:
-  - WOS_SRC_DIR=/tmp/github.com/mikeshultz/wikionastick WOS_BUILD_DIR="$WOS_DIR/build"
+  - WOS_SRC_DIR="$HOME/gopath/src/github.com/mikeshultz/wikionastick" WOS_BUILD_DIR="$WOS_DIR/build"
 language: go
 go:
   - 1.8
-go_import_path: "/tmp/"
+go_import_path: "github.com/mikeshultz/wikionastick"
 before_install:
   - mkdir -p $WOS_BUILD_DIR
 install:
