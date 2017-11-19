@@ -8,6 +8,7 @@ go:
 #before_install:
 #  - mkdir -p $WOS_BUILD_DIR
 before_install:
+  - ls -lah $WOS_SRC_DIR
   - git clone https://github.com/mikeshultz/wikionastick.git $WOS_SRC_DIR
 script: cd $WOS_SRC_DIR && ./make.sh
 deploy:
