@@ -1,5 +1,7 @@
 # Wiki On A Stick
 
+[![Build Status](https://travis-ci.org/mikeshultz/wikionastick.svg?branch=master)](https://travis-ci.org/mikeshultz/wikionastick)
+
 A wiki that runs on, and renders markdown documents from a thumbdrive.
 
 ![Screenshot](https://i.imgur.com/hJwDVw4.png)
