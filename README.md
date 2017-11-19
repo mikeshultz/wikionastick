@@ -2,6 +2,8 @@
 
 A wiki that runs on, and renders markdown documents from a thumbdrive.
 
+![Screenshot](https://i.imgur.com/hJwDVw4.png)
+
 ## Install
 
 1) Grab a copy of the release from the [releases](https://github.com/mikeshultz/wikionastick/releases)
