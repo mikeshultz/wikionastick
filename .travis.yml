@@ -4,7 +4,7 @@ env:
 language: go
 go:
   - 1.8
-go_import_path: "github.com/mikeshultz/wikionastick"
+#go_import_path: "github.com/mikeshultz/wikionastick"
 before_install:
   - mkdir -p $WOS_BUILD_DIR
 install:
