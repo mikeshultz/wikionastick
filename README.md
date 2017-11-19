@@ -6,6 +6,18 @@ A wiki that runs on, and renders markdown documents from a thumbdrive.
 
 ## Install
 
+### Automagic Install
+
+    WOS_INSTALL_PATH=/mnt/thumb-drive bash <(curl -s https://raw.githubusercontent.com/mikeshultz/wikionastick/master/install_usb.sh)
+
+You can review [the installer script](https://github.com/mikeshultz/wikionastick/blob/master/install_usb.sh)
+ahead of time, but this is the easiest way to install WikiOnAStick to a **mounted**
+thumbdrive.
+
+If you only need a specific OS supported, set `WOS_OS` to one of the following:
+`linux64`, `darwin64`, `freebsd64` or `win64`.
+
+### Manual
 1) Grab a copy of the release from the [releases](https://github.com/mikeshultz/wikionastick/releases)
 page.
 2) Create a directory on your thumbdrive that will contain your docs
