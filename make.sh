@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Version should be changed on each build!
-VERSION="0.2.2"
+VERSION="0.2.3"
 
 CWD=$(pwd)
 # Set build directory only if it hasn't already been set
